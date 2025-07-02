@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>¡30 Años!</title>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <style>
+    body {
+      margin:0; padding:0;
+      font-family:sans-serif;
+      background: linear-gradient(135deg, #004f4f, #f5f1e8);
+      color:#f5f1e8;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      min-height:100vh; text-align:center;
+    }
+    .card {
+      background: rgba(0,0,0,0.2);
+      padding:20px; border-radius:12px;
+      max-width:360px; width:90%;
+    }
+    button {
+      margin:10px;
+      padding:12px 20px;
+      font-size:16px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .btn-aceptar { background:#c77c02; color:#fff; }
+    .btn-confirmar { background:transparent; border:2px solid #f5f1e8; color:#f5f1e8; }
+    #qrcode { margin-top:20px; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🥂 Los 30 de mi chico</h1>
+    <p><strong>Anfitriona:</strong> tu chica D 💋</p>
+    <p><strong>Fecha:</strong> 14/07</p>
+    <p><strong>Hora:</strong> 19:00</p>
+    <p><strong>Lugar:</strong> secreto... confirma tu asistencia y déjate llevar</p>
+    <div id="countdown"></div>
+
+    <button class="btn-aceptar" id="btnAceptar">Aceptar invitación</button>
+    <p id="msgAceptar" style="display:none;color:#a8e6cf;">Gracias por aceptar, pronto te diré el lugar!</p>
+
+    <button class="btn-confirmar" id="btnConfirmar">Confirmar asistencia</button>
+    <p id="msgConfirmar" style="display:none;color:#a8e6cf;">Asistencia confirmada 🎉</p>
+
+    <div id="qrcode"></div>
+  </div>
+
+  <script>
+    function updateCountdown() {
+      const target = new Date("2025-07-14T19:00:00");
+      const diff = target - new Date();
+      if (diff <= 0) return document.getElementById("countdown").innerText = "¡Hoy es el día!";
+      const d = Math.floor(diff/1000/60/60/24);
+      const h = Math.floor(diff/1000/60/60%24);
+      const m = Math.floor(diff/1000/60%60);
+      const s = Math.floor(diff/1000%60);
+      document.getElementById("countdown").innerText = `Faltan: ${d}d ${h}h ${m}m ${s}s`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    document.getElementById("btnAceptar")
+      .addEventListener("click", ()=> {
+        document.getElementById("msgAceptar").style.display = "block";
+        document.getElementById("btnAceptar").style.display = "none";
+      });
+    document.getElementById("btnConfirmar")
+      .addEventListener("click", ()=> {
+        document.getElementById("msgConfirmar").style.display = "block";
+        document.getElementById("btnConfirmar").style.display = "none";
+      });
+
+    new QRCode(document.getElementById("qrcode"), {
+      text: window.location.href,
+      width: 150,
+      height: 150,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+
+</body>
+</html>
